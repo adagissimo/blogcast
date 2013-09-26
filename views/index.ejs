@@ -1,0 +1,13 @@
+<% if (!user) { %>
+<div class="hero-unit">
+  <h1>Welcome to Blogcast</h1>
+  <p>Blogcast is a microblog system based on node.js</p>
+  <p>
+	<a class="btn btn-primary btn-large" href="/login">Login</a>
+	<a class="btn btn-large" href="/reg">Register</a>
+  </p>
+</div>
+<% } else { %>
+	<% include say %>
+<% } %>
+<% include posts %>

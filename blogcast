@@ -1,0 +1,31 @@
+#! /bin/sh
+
+NODE_ENV=production
+DAEMON="node cluster.js"
+NAME=Blogcast
+DESC=Blogcast
+PIDFILE="blogcast.pid"
+
+if [ ! -n "$1" ]
+then
+    echo  "usage: $0 [start|stop]";
+    exit 1
+fi
+
+case "$1" in
+  start)
+        echo "Starting $DESC: "
+        nohup $DAEMON > /dev/null &
+        echo $! > $PIDFILE
+        echo "$NAME started."
+        ;;
+  stop)
+        echo "Stopping $DESC: "
+        pid=`cat $PIDFILE`
+        kill $pid
+        rm $PIDFILE
+        echo "$NAME stopped."
+        ;;
+esac
+    
+    exit 0
