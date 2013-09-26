@@ -27,12 +27,12 @@ Post.prototype.save = function (callback) {
 		
 		db.collection('posts', function(err, collection) {
 			if (err) {
-				mongodb.close();
+				db.close();
 				return callback(err);
 			} 
-			collection.ensureIndex('user');
-			collection.insert(post, {safe:true}, function(err, post) {
-				mongodb.close();
+			collection.ensureIndex('user', function(err){});
+			collection.insert(post, function(err, post) {
+				db.close();
 				callback(err, post);
 			});
 		});
@@ -47,7 +47,7 @@ Post.get = function (username, callback) {
 		
 		db.collection('posts', function(err, collection) {
 			if(err) {
-				mongodb.close();
+				db.close();
 				return callback(err);
 			}
 			var query = {};
@@ -57,7 +57,7 @@ Post.get = function (username, callback) {
 			collection.find(query).sort({time:-1}).toArray(function(err, docs) {
 				if(err) {
 					callback(err, null);
-					mongodb.close();
+					db.close();
 				}
 				
 				var posts = [];
@@ -65,7 +65,7 @@ Post.get = function (username, callback) {
 					var post = new Post(doc.user, doc.post, doc.time);
 					posts.push(post);
 				});
-				mongodb.close();
+				db.close();
 				callback(null, posts);
 			});
 			

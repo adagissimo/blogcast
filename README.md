@@ -1,4 +1,4 @@
 blogcast
 ========
 
-a test proj
+a simple sample blog proj

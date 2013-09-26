@@ -18,12 +18,12 @@ User.prototype.save = function(callback) {
 		
 		db.collection('users', function(err, collection) {
 			if(err) {
-				mongodb.close();
+				db.close();
 				return callback(err);
 			}
-			collection.ensureIndex('name', {unique:true});
-			collection.insert(user, {safe:true}, function(err, user) {
-				mongodb.close();
+			collection.ensureIndex('name', {unique:true}, function(err){});
+			collection.insert(user, function(err, user) {
+				db.close();
 				callback(err, user);
 			});
 		});
@@ -40,7 +40,7 @@ User.get = function(username, callback) {
 			}
 			
 			collection.findOne({name:username}, function(err, doc) {
-				mongodb.close();
+				db.close();
 				if(doc) {
 					var user = new User(doc);
 					callback(err, user);

@@ -33,7 +33,10 @@ app.use(express.methodOverride());
 app.use(express.cookieParser());
 app.use(express.session({
 	secret: settings.cookieSecret,
-	store: new MongoStore({db:settings.db}) 
+	store: new MongoStore({
+		db:settings.db,
+		url:settings.dbUrl + '/MongoSession'
+		}) 
 }));
 app.use(partials());
 app.use(flash());

@@ -35,13 +35,13 @@ exports.doReg = function(req, res) {
 	User.get(newUser.name, function(err, user) {
 		if(user) err = 'User name already exists';
 		if(err) {
-			req.flash('error', err);
+			req.flash('error', err.toString() );
 			return res.redirect('/reg');
 		}
 		
 		newUser.save(function(err) {
 			if(err) {
-				req.flash('error', err);
+				req.flash('error', err.toString() );
 				return res.redirect('/reg');
 			}
 			req.session.user = newUser;
@@ -65,12 +65,12 @@ exports.doLogin = function(req, res) {
 	User.get(req.body.username, function(err, user) {
 		
 		if (err) {
-			req.flash('error', Object.prototype.toString.apply(err));
+			req.flash('error', err.toString() );
 			return res.redirect('/login')
 		}
 	
 		if(!user) {
-			req.flash('error', 'User not exist');
+			req.flash('error', 'User does not exist');
 			return res.redirect('/login');
 		}
 		
@@ -96,7 +96,7 @@ exports.doPost = function (req, res) {
 	var post = new Post(currentUser.name, req.body.post);
 	post.save(function(err) {
 		if(err) {
-			req.flash('error', err);
+			req.flash('error', err.toString() );
 			return res.redirect('/');
 		}
 		req.flash('success', 'Sent');
@@ -112,7 +112,7 @@ exports.user = function (req, res) {
 		}
 		Post.get(user.name, function(err, posts) {
 			if(err) {
-				req.flash('error', err);
+				req.flash('error', err.toString() );
 				return res.redirect('/');
 			}
 			res.render('user', {
